@@ -11,6 +11,7 @@ const app = express();//init express
 const port = process.env.PORT || 3000;
 
 //setup of angular files dir (similar to setting up a static file)
+// not found modify if need
 app.use(express.static(__dirname + '../../dist/buggy-gui-angularPort'));
 
 //in the docs for body parser middleware
