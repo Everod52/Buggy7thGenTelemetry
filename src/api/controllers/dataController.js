@@ -69,7 +69,7 @@ exports.getLastValues = function (req, res) {
 
   // const rowsNumQuery = `SELECT COUNT(*) As count FROM ` + buggy_name;
   //
-  // //Outer query
+  // //Outer query.
   // const results = db.query(rowsNumQuery, function (error, result) {
   //
   //   if (error) {
