@@ -149,7 +149,7 @@ exports.getId = function (req, res) {
 };
 
 /**
- This function updates a specific row from the Data Base
+ This function updates a specific row from the Data Base.
  **/
 exports.updateId = function (req, res) {
   const paramId = req.params['id'];
