@@ -127,15 +127,20 @@ exports.addData = function (req, res) {
       res.status(404).send(req.body);
     });
 };
-
 /**
  This function gets a specific row from the Data Base
  **/
 exports.getId = function (req, res) {
   const paramId = req.params['id'];
-  const buggy_name = req.params['table']; // Respective Buggy name
+  const buggy_name = req.params['table'].toLowerCase(); // Respective Buggy name
 
   const queryText = 'SELECT * FROM ' + buggy_name + ' WHERE id = ?';
+  Buggy.findOne({
+    where: {
+      buggy_data: sequelize.where(sequelize.fn())
+    }
+  })
+
   db.query(queryText, [paramId], function (err, result) {
     if (err) res.status(404).send(req.body);
 
@@ -145,6 +150,42 @@ exports.getId = function (req, res) {
 
     //send JSON to Express
     res.send(resultJson);
+  });
+};
+
+/**
+ This function gets a specific row from the Data Base
+ **/
+//
+exports.getTimeStamp = function (req, res) {
+  // Get data given a specific time
+  const inTime = req.params['hour'];
+  const buggy_name = req.params['table'].toLowerCase();
+
+  Buggy.findOne({
+    include : [{model : Data}],
+    where : {
+      buggy_data: sequelize.where(sequelize.fn('LOWER', sequelize.col('name')), 'LIKE', '%' + buggy_name + '%')
+    }
+  }).then(buggy => {
+    if (buggy) {
+      Data.findAll({
+        where : {
+          [sequelize.Op.gte] : inTime,
+        },
+        order : [['GSC_Time', 'DESC']],
+        limit : 30
+      }).then(dataRows => {
+        console.log('Successfully fetched time stamps %' % buggy_name);
+        res.status(200).send(dataRows);}).catch(error => {
+          console.log(('Could not fetch the time stamps %. ' % buggy_name) + error);
+          res.status(404).send(req.body);
+        });
+    }
+
+  }).catch(error => {
+    console.log(('Could not find the respective buggy: %. ' % buggy_name) + error);
+    res.status(404).send(req.body);
   });
 };
 
