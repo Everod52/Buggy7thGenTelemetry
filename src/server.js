@@ -8,7 +8,7 @@ const dataDB = require('./api/models/dataModel.js');//db model
 const app = express();//init express
 
 //assign a port
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8000;
 
 //setup of angular files dir (similar to setting up a static file)
 // not found modify if need
