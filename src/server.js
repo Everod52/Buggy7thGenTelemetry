@@ -3,12 +3,11 @@ const http = require('http');
 const path = require('path');
 const bodyParser = require('body-parser');
 const dataRoutes = require('./api/routes/dataRoutes');//importing routes
-const dataDB = require('./api/models/dataModel.js');//db model
 
 const app = express();//init express
 
 //assign a port
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 3000;
 
 //setup of angular files dir (similar to setting up a static file)
 // not found modify if need
